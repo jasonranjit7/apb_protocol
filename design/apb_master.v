@@ -11,7 +11,7 @@ module APB_master(input clk,
                   output [31:0] paddr, //output addr into slave
                   output [31:0] pwdata, //output write data into slave
                   output [31:0] rdata, //output read data from slave
-                  output pwrite, //output operation control to slave
+                  output pwrite //output operation control to slave
                  );
   
   reg [1:0] state,nxt_state;

@@ -6,7 +6,7 @@ module apb_slave(input clk,
                  input [31:0] pwdata,
                  input pwrite,
                  input [31:0] per_rdata, //data from peripheral to CPU
-                 output [31:0] per_wdata //data from CPU to peripheral
+                 output [31:0] per_wdata, //data from CPU to peripheral
                  output pready,
                  output [31:0] prdata,
                  output pslverr
