@@ -1,15 +1,17 @@
 module APB_master(input clk,
                   input rst,
                   input transfer,
-                  input [31:0] addr
-                  input [31:0] wdata,
-                  input write,
+                  input [31:0] addr, //address into apb interface
+                  input [31:0] wdata, //write addr into apb
+                  input [31:0] prdata,//read data from slave
+                  input write, //operation control into apb
                   input pready,
                   output psel,
                   output penable,
-                  output [31:0] paddr,
-                  output [31:0] pwdata,
-                  output pwrite,
+                  output [31:0] paddr, //output addr into slave
+                  output [31:0] pwdata, //output write data into slave
+                  output [31:0] rdata, //output read data from slave
+                  output pwrite, //output operation control to slave
                  );
   
   reg [1:0] state,nxt_state;
@@ -76,6 +78,8 @@ module APB_master(input clk,
           begin
             psel<=1'b1;
             penable<=1'b1;
+            if(!pwrite && pready)
+              rdata<=prdata;
           end
       endcase
     end
