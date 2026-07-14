@@ -1,18 +1,21 @@
 module apb_slave(input clk,
                  input rst,
-                 input [31:0] paddr,
-                 input psel,
+                 input [31:0] paddr, //input addr from master
+                 input psel, //input from master
                  input penable,
                  input [31:0] pwdata,
                  input pwrite,
+                 input [31:0] per_rdata, //data from peripheral to CPU
+                 output [31:0] per_wdata //data from CPU to peripheral
                  output pready,
                  output [31:0] prdata,
                  output pslverr
                 );
   
   assign pready=1'b1;
+  assign per_wdata = reg0;
   
-  reg [31:0] reg0,reg1,reg2,reg3;
+  reg [31:0] reg0,reg1,reg2,reg3; //internal registers connected to peripherals
   
   //write logic
   always@(posedge clk) begin
@@ -40,7 +43,7 @@ module apb_slave(input clk,
       begin
         case(paddr[3:2])
           2'b00: prdata=reg0;
-          2'b01: prdata=reg1;
+          2'b01: prdata=per_rdata; //peripheral data to CPU
           2'b10: prdata=reg2;
           2'b11: prdata=reg3;
         endcase
